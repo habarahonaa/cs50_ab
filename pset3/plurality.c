@@ -1,3 +1,4 @@
+//Distribution code as provided by Harvard's CS50 staff
 #include <cs50.h>
 #include <stdio.h>
 #include <string.h>
