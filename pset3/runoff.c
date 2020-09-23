@@ -186,27 +186,27 @@ bool print_winner(void)
 int find_min(void)
 {
     //Defines a variable to store the lowest vote count
-    int minvotes = candidates[0].votes;
+    int min = candidates[0].votes;
     //Iterates through the candidates list
     for (int m = 0; m < candidate_count; m++)
     {
         //Checks if the candidate is not eliminated and the vote count is less than the stored vote count & updates it
-        if (candidates[m].eliminated == false && minvotes < candidates[m].votes)
+        if (candidates[m].eliminated == false && min < candidates[m].votes)
         {
-            minvotes = candidates[m].votes;
+            min = candidates[m].votes;
         }
     }
-    //Returns the integer lowest_vote
-    return minvotes;
+    //Returns the integer min
+    return min;
 }
 
 // Return true if the election is tied between all candidates, false otherwise
-bool is_tie(int minvotes)
+bool is_tie(int min)
 {
     for (int n = 0; n < candidate_count; n++)
     {
         //Check if candidate is not eliminated and has the minimum votes (if a candidate has the minimum votes means there is no tie)
-        if (candidates[n].eliminated == false && candidates[n].votes != minvotes)
+        if (candidates[n].eliminated == false && candidates[n].votes != min)
         {
             return false;
         }
@@ -216,11 +216,11 @@ bool is_tie(int minvotes)
 }
 
 // Eliminate the candidate (or candidates) in last place
-void eliminate(int minvotes)
+void eliminate(int min)
 {
     for (int i = 0; i < candidate_count; i++)
     {
-        if (candidates[i].eliminated != true && candidates[i].votes == minvotes)
+        if (candidates[i].eliminated != true && candidates[i].votes == min)
         {
             candidates[i].eliminated = true;
         }
