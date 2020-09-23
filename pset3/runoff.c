@@ -166,27 +166,64 @@ void tabulate(void)
 // Print the winner of the election, if there is one
 bool print_winner(void)
 {
-    // TODO
+    //Calculates majority and stores the value
+    int majority = voter_count / 2 + 0.5;
+    //Iterates through the candidates to check number of votes
+    for (int l = 0; l < candidate_count; l++)
+    {
+        //If one candidate has majority, declare the winner, and return true
+        if (candidates[l].votes > majority)
+        {
+            printf("%s\n", candidates[l].name);
+            return true;
+        }
+    }
+    //Else
     return false;
 }
 
 // Return the minimum number of votes any remaining candidate has
 int find_min(void)
 {
-    // TODO
-    return 0;
+    //Defines a variable to store the lowest vote count
+    int minvotes = candidates[0].votes;
+    //Iterates through the candidates list
+    for (int m = 0; m < candidate_count; m++)
+    {
+        //Checks if the candidate is not eliminated and the vote count is less than the stored vote count & updates it
+        if (candidates[m].eliminated == false && minvotes < candidates[m].votes)
+        {
+            minvotes = candidates[m].votes;
+        }
+    }
+    //Returns the integer lowest_vote
+    return minvotes;
 }
 
 // Return true if the election is tied between all candidates, false otherwise
-bool is_tie(int min)
+bool is_tie(int minvotes)
 {
-    // TODO
-    return false;
+    for (int n = 0; n < candidate_count; n++)
+    {
+        //Check if candidate is not eliminated and has the minimum votes (if a candidate has the minimum votes means there is no tie)
+        if (candidates[n].eliminated == false && candidates[n].votes != minvotes)
+        {
+            return false;
+        }
+    }
+    //Else
+    return true;
 }
 
 // Eliminate the candidate (or candidates) in last place
-void eliminate(int min)
+void eliminate(int minvotes)
 {
-    // TODO
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (candidates[i].eliminated != true && candidates[i].votes == minvotes)
+        {
+            candidates[i].eliminated = true;
+        }
+    }
     return;
 }
