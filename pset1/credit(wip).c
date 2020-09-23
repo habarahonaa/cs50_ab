@@ -1,20 +1,20 @@
 //Credit is a program that implements Luhn's algorithm for checking if a Credit's card number is valid (WIP)
 
+//Headers
 #include <cs50.h>
 #include <stdio.h>
 
+//Prototypes
 bool check_validity(long number);
 int find_length(long n);
-bool checksum(long credit_card_number);
-void print_cc_issuer(long credit_card_number);
+bool checksum(long card_number);
+void print_issuer(long number);
 
 
 int main(void)
 {
 	//Prompt user for credit card number
-
 	long number;
-
 	do
 	{
 		number = get_long("Number: ");
@@ -22,15 +22,13 @@ int main(void)
 	while (number < 0);
 
 	//Prints the Credit Card Network or INVALID if number is not valid
-
-	if (check_validity(number) == true)
-		print_cc_issuer(number);
+	if (checksum(number) == true)
+		print_issuer(number);
 	else
 	    printf("INVALID\n");
 }
 
-//Function to check if input number is valid
-
+//Check if input number is valid 
 bool check_validity(long number)
 {
     int length = find_length(number);
@@ -38,26 +36,24 @@ bool check_validity(long number)
 }
 
 //Find length of credit card
-
 int find_length(long n)
 {
     int length;
     for (length = 0; n != 0; n /= 10, length++);
-    return length;
+	return length;
 }
 
-//Luhn's Algorithm
-
-bool checksum(long credit_card_number)
+//Luhn's Algorithm Implementation
+bool checksum(long number)
 {
     int sum = 0;
-    for(int i = 0; credit_card_number != 0; i++, credit_card_number /= 10)
+    for(int i = 0; number != 0; i++, number /= 10)
     {
         if (i % 2 == 0)
-            sum += credit_card_number % 10;
-        else
+            sum += number % 10;
+        else 
         {
-            int digit = 2 * (credit_card_number % 10);
+            int digit = 2 * (number % 10);
             sum += digit / 10 + digit % 10;
         }
     }
@@ -65,16 +61,15 @@ bool checksum(long credit_card_number)
 }
 
 //Function for checking Credit Card Network and printing it
-
-void print_cc_issuer(long credit_card_number)
+void print_issuer(long number)
 {
-    if ( (credit_card_number >= 34e13 && credit_card_number < 35e13) || (credit_card_number >= 37e13 && credit_card_number < 38e13))
+    if ( (number >= 34e13 && number < 35e13) || (number >= 37e13 && number < 38e13))
     printf("AMEX\n");
 
-    else if (credit_card_number >= 51e14 && credit_card_number < 56e14)
+    else if (number >= 51e14 && number < 56e14)
     printf("MASTERCARD\n");
 
-    else if ( (credit_card_number >= 4e12 && credit_card_number < 5e12) || (credit_card_number >= 4e14 && credit_card_number < 5e14))
+    else if ( (number >= 4e12 && number < 5e12) || (number >= 4e14 && number < 5e14))
     printf("VISA\n");
 
     else
